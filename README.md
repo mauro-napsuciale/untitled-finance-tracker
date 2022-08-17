@@ -1,2 +1,2 @@
-# untitled-finance-tracker
-Repo for the frontend of the untitled finance tracker project.
+# Untitled Finance Tracker 🏠👤
+** This is a work in progress **. This project is meant to help you track your finances and break free of cumbersome spreadsheets. Just need to run both frontend and backend. Self hosting recommended so that you don't have to run both projects every time you want to add a registry (admin permissions required to install NodeJS).
