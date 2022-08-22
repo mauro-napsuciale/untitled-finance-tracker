@@ -1,13 +1,16 @@
 <script>
-  // your script goes here
+  import Auth from "./views/Auth.svelte";
+  import Router from "svelte-spa-router";
+  import Home from "./views/Home.svelte";
 
-  import Navbar from "./lib/Navbar.svelte";
+  const routes = {
+    "/": Auth,
+    "/home": Home,
+  };
 </script>
 
-<!-- markup (zero or more items) goes here -->
-<Navbar />
 <main>
-  <h1 class="text-center">Tailwind works</h1>
+  <Router {routes} />
 </main>
 
 <style>

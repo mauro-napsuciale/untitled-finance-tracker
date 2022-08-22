@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+main,
+body,
+html {
+    background-color: #e1e1e1;
+}
+
+@layer components {
+    .neumorph-in {
+        @apply rounded-lg transition-shadow shadow-neu-in md:shadow-transparent md:hover:shadow-neu-in;
+    }
+
+    .neumorph-out {
+        @apply rounded-lg transition-shadow shadow-neu-out md:shadow-transparent md:hover:shadow-neu-out;
+    }
+}
+
+/* Debug */
+/* * {
+    outline: 1px solid red;
+} */
