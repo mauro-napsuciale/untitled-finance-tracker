@@ -25,7 +25,7 @@
 <div class="w-full min-h-screen flex items-center">
     <div class="container max-w-sm mx-4 md:mx-auto">
         <img
-            src="/img/doge_alt.webp"
+            src="/img/doge-alt.webp"
             alt="dog"
             class="w-48 h-48 md:w-64 md:h-64 rounded-full mb-8 mx-auto object-cover shadow-neu-out"
         />
