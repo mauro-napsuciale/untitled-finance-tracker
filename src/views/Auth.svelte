@@ -2,19 +2,33 @@
     import Input from "../components/Forms/Input.svelte";
     import Icon from "@iconify/svelte";
     import { push } from "svelte-spa-router";
+    import { login } from "../services/apiService";
+    import { sha512 } from "js-sha512";
+    import { errorToast, successToast } from "../services/toastService";
 
-    let user: string = null;
-    let password: string = null;
+    let identifier: string | null = null;
+    let password: string | null = null;
 
-    const handleForm = (event: any) => {
-        const data: object = Object.fromEntries(
+    const handleForm = async (event: any) => {
+        let body: any = Object.fromEntries(
             new FormData(event.target).entries()
         );
-        console.log(data);
+        body.password = sha512(body.password);
 
-        // TODO: Connect with API.
-
-        push("/home");
+        try {
+            const { data } = await login(body);
+            push("/home");
+            successToast("Welcome 🎉");
+        } catch (err) {
+            const {
+                response: {
+                    data: {
+                        error: { message },
+                    },
+                },
+            } = err;
+            errorToast(`${message ?? "An error has ocurred"} 😬`);
+        }
     };
 </script>
 
@@ -29,14 +43,16 @@
             alt="dog"
             class="w-48 h-48 md:w-64 md:h-64 rounded-full mb-8 mx-auto object-cover shadow-neu-out"
         />
-        <div class="p-8 rounded-md shadow-neu-in">
+        <div
+            class="p-8 rounded-md transition-shadow focus-within:shadow-neu-in md:hover:shadow-neu-in"
+        >
             <h2 class="text-2xl text-center">Untitled Finance Tracker</h2>
             <form on:submit|preventDefault={handleForm}>
                 <Input
                     extraClasses={"transition-shadow hover:shadow-neu-out focus:shadow-neu-out"}
                     placeholder={"User"}
-                    name={"user"}
-                    value={user}
+                    name={"identifier"}
+                    value={identifier}
                 />
                 <Input
                     extraClasses={"transition-shadow hover:shadow-neu-out focus:shadow-neu-out"}
@@ -47,7 +63,7 @@
                 />
                 <button
                     type="submit"
-                    class="px-8 py-2 mt-4 shadow-neu-out bg-primary rounded-lg text-base-color"
+                    class="px-8 py-2 mt-4 hover:shadow-neu-out focus:shadow-neu-out bg-primary rounded-lg text-base-color"
                 >
                     Login
                     <Icon icon="mdi:login" class="inline" />

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const backendURL: string = process.env.API_URL;
+const backendURL: string = import.meta.env.VITE_API_URL;
 
 export function httpGet(URL: string): Promise<any> {
     const token: string = sessionStorage.getItem('ufa-token');
