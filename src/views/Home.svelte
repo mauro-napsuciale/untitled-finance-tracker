@@ -26,7 +26,7 @@
             <img
                 src="/img/walking-parrot.webp"
                 alt="walking-parrot"
-                class="rounded-full w-32 h-32 object-contain"
+                class="rounded-full w-32 h-32 object-contain shadow-neu-out"
             />
         {:then value}
             <p class="mb-4">Here's a quick brief of your expenses:</p>
@@ -39,7 +39,7 @@
                 class="mb-4 rounded-full w-32 h-32 object-contain"
             />
             <button
-                class="block px-8 py-2 bg-primary text-white rounded-lg shadow-neu-out"
+                class="block px-8 py-2 bg-primary text-white rounded-lg transition-shadow hover:shadow-neu-out focus:shadow-neu-out"
                 on:click={() => {
                     getData = fakeAsync();
                 }}
