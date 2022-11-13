@@ -43,55 +43,57 @@
 </nav>
 
 <div
-    class="fixed top-4 left-4 right-4 bottom-4 neumorph-out bg-base-color flex flex-col items-center md:hidden p-4 z-50 transition-transform {isMenuOpen
+    class="fixed top-4 left-4 right-4 bottom-4 neumorph-out md:hidden z-50 transition-transform duration-[200ms] {isMenuOpen
         ? 'scale-100'
         : 'scale-0'}"
 >
-    <button
-        class="p-3 rounded-full bg-base-color shadow-neu-out self-end mb-4"
-        on:click={() => {
-            isMenuOpen = false;
-        }}
-    >
-        <Icon icon="mdi:close" />
-    </button>
-    <div class="mb-8">
-        <img
-            src="/img/doge-alt.webp"
-            alt="logo"
-            class="w-32 rounded-full shadow-neu-out mx-auto mb-4"
-        />
-        <h1 class="text-xl text-center">Untitled Fiance Tracker</h1>
-    </div>
-    <div class="text-center">
-        <a
-            href="/home"
-            class="block px-4 py-2 my-2 transition-shadow focus:shadow-neu-in rounded-lg"
-            use:link
-        >
-            Test anchor
-        </a>
-        <a
-            href="/home"
-            class="block px-4 py-2 my-2 transition-shadow focus:shadow-neu-in rounded-lg"
-            use:link
-        >
-            Test anchor
-        </a>
-        <a
-            href="/home"
-            class="block px-4 py-2 my-2 transition-shadow focus:shadow-neu-in rounded-lg"
-            use:link
-        >
-            Test anchor
-        </a>
+    <div class="flex flex-col items-center bg-base-color p-4 rounded-lg">
         <button
-            class="px-8 py-2 bg-primary text-base-color neumorph-out"
-            on:click={logout}
+            class="p-3 rounded-full bg-base-color shadow-neu-out self-end mb-4"
+            on:click={() => {
+                isMenuOpen = false;
+            }}
         >
-            Logout
-            <Icon icon="mdi:login" class="inline" />
+            <Icon icon="mdi:close" />
         </button>
+        <div class="mb-8">
+            <img
+                src="/img/doge-alt.webp"
+                alt="logo"
+                class="w-32 rounded-full shadow-neu-out mx-auto mb-4"
+            />
+            <h1 class="text-xl text-center">Untitled Fiance Tracker</h1>
+        </div>
+        <div class="text-center">
+            <a
+                href="/home"
+                class="block px-4 py-2 my-2 transition-shadow focus:shadow-neu-in rounded-lg"
+                use:link
+            >
+                Test anchor
+            </a>
+            <a
+                href="/home"
+                class="block px-4 py-2 my-2 transition-shadow focus:shadow-neu-in rounded-lg"
+                use:link
+            >
+                Test anchor
+            </a>
+            <a
+                href="/home"
+                class="block px-4 py-2 my-2 transition-shadow focus:shadow-neu-in rounded-lg"
+                use:link
+            >
+                Test anchor
+            </a>
+            <button
+                class="px-8 py-2 bg-primary text-base-color neumorph-out"
+                on:click={logout}
+            >
+                Logout
+                <Icon icon="mdi:login" class="inline" />
+            </button>
+        </div>
     </div>
 </div>
 
