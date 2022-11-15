@@ -17,6 +17,9 @@
 
         try {
             const { data } = await login(body);
+            sessionStorage.setItem("uft-token", data.jwt);
+            sessionStorage.setItem("uft-session", JSON.stringify(data.user));
+
             push("/home");
             successToast("Welcome 🎉");
         } catch (err) {
