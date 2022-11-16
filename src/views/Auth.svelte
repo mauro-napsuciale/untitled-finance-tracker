@@ -5,6 +5,7 @@
     import { login } from "../services/apiService";
     import { sha512 } from "js-sha512";
     import { errorToast, successToast } from "../services/toastService";
+    import { NETWORK_ERROR_CODES } from "../services/types";
 
     let identifier: string | null = null;
     let password: string | null = null;
@@ -23,14 +24,15 @@
             push("/home");
             successToast("Welcome 🎉");
         } catch (err) {
-            const {
-                response: {
-                    data: {
-                        error: { message },
-                    },
-                },
-            } = err;
-            errorToast(`${message ?? "An error has ocurred"} 😬`);
+            if (err?.code == NETWORK_ERROR_CODES.CONNECTION_FAILED) {
+                errorToast(err?.message + " 😬");
+                return;
+            }
+
+            const message =
+                err?.response?.data?.error?.message ??
+                "An error has ocurred 😬";
+            errorToast(message);
         }
     };
 </script>

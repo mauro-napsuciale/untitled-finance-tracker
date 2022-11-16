@@ -62,3 +62,8 @@ export type User = {
     nickname: string,
     avatar: Media
 }
+
+export const NETWORK_ERROR_CODES = {
+    CONNECTION_FAILED: "ERR_NETWORK",
+    BAD_REQUEST: "ERR_BAD_REQUEST",
+}
