@@ -1,8 +1,14 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
+    import type { User } from "../services/types";
     import { link, replace } from "svelte-spa-router";
 
     let isMenuOpen: boolean = false;
+
+    const session: User = JSON.parse(
+        sessionStorage.getItem("uft-session") as string
+    );
+    const backendURL: string = import.meta.env.VITE_BACKEND_URL;
 
     const logout = () => {
         sessionStorage.removeItem("ufa-session");
@@ -15,11 +21,24 @@
     <div
         class="container max-w-7xl mx-auto p-4 my-4 flex justify-between items-center transition-shadow focus-within:shadow-neu-out hover:shadow-neu-out rounded-lg  bg-base-color"
     >
-        <img
-            src="/img/stonks.webp"
-            alt="logo"
-            class="w-24 rounded-lg shadow-neu-out"
-        />
+        <div class="flex items-center gap-4">
+            {#if session?.avatar != null}
+                <img
+                    src={backendURL + session.avatar.url}
+                    alt="logo"
+                    class="w-12 h-12 rounded-full shadow-neu-out"
+                />
+            {:else}
+                <img
+                    src="/img/stonks.webp"
+                    alt="logo"
+                    class="w-24 rounded-lg shadow-neu-out"
+                />
+            {/if}
+            <p class="md:text-lg">
+                {session?.name}
+            </p>
+        </div>
         <div class="hidden md:flex justify-between items-center gap-4 md:gap-8">
             <a href="/home" class="px-4 py-2 neumorph-in" use:link
                 >Test anchor</a

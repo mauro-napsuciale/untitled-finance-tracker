@@ -2,7 +2,7 @@
     import Input from "../components/Forms/Input.svelte";
     import Icon from "@iconify/svelte";
     import { push } from "svelte-spa-router";
-    import { login } from "../services/apiService";
+    import { httpGet, login } from "../services/apiService";
     import { sha512 } from "js-sha512";
     import { errorToast, successToast } from "../services/toastService";
     import { NETWORK_ERROR_CODES } from "../services/types";
@@ -19,7 +19,11 @@
         try {
             const { data } = await login(body);
             sessionStorage.setItem("uft-token", data.jwt);
-            sessionStorage.setItem("uft-session", JSON.stringify(data.user));
+
+            const { data: myData } = await httpGet(
+                `/users/${data.user.id}?populate=avatar`
+            );
+            sessionStorage.setItem("uft-session", JSON.stringify(myData));
 
             push("/home");
             successToast("Welcome 🎉");

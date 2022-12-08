@@ -1,24 +1,42 @@
 <script lang="ts">
+    import NavDrawer from "../components/NavDrawer.svelte";
     import { httpGet } from "../services/apiService";
     import type { Expense, Income } from "../services/types";
-
-    // your script goes here
-    import NavDrawer from "../components/NavDrawer.svelte";
+    import { format, startOfMonth, endOfMonth } from "date-fns";
 
     let getData: Promise<any> = getDashboardData();
+
+    const mappedTotal = (data: Expense[]) => {
+        return data
+            .map((expense) => expense.amount)
+            .reduce((prev: number, curr: number) => prev + curr, 0);
+    };
 
     function getDashboardData(): Promise<{
         expenses: Expense[];
         incomes: Income[];
     }> {
         return new Promise(async (resolve, reject) => {
+            const monthStart: string = format(
+                startOfMonth(new Date()),
+                "yyyy-MM-dd"
+            );
+            const monthEnd: string = format(
+                endOfMonth(new Date()),
+                "yyyy-MM-dd"
+            );
+
             try {
                 const {
                     data: { data: expenses },
-                } = await httpGet("/expenses?filters[]");
+                } = await httpGet(
+                    `/expenses?filters[issued_date][$between][0]=${monthStart}&filters[issued_date][$between][1]=${monthEnd}`
+                );
                 const {
                     data: { data: incomes },
-                } = await httpGet("/incomes");
+                } = await httpGet(
+                    `/incomes?filters[perceived_date][$between][0]=${monthStart}&filters[perceived_date][$between][1]=${monthEnd}`
+                );
                 resolve({ expenses, incomes });
             } catch (error) {
                 const {
@@ -44,13 +62,16 @@
             <p class="mb-4">Getting your data...</p>
             <img
                 src="/img/walking-parrot.webp"
-                alt="walking-parrot"
+                alt="loading"
                 class="rounded-full w-32 h-32 object-contain shadow-neu-out"
             />
         {:then value}
             <p class="mb-4">Here's a quick brief of your expenses:</p>
+            <!-- TODO: Pretty graphs -->
             <p>Expense movements {value.expenses.length}</p>
+            <p>Total spent {mappedTotal(value.expenses)}</p>
             <p>Income movements {value.incomes.length}</p>
+            <p>Total earned {mappedTotal(value.incomes)}</p>
         {:catch error}
             <p class="mb-2 text-lg">
                 The following error ocurred while getting your data:
@@ -58,7 +79,7 @@
             <p class="italic mb-4">{error.message}</p>
             <img
                 src="/img/blind-hamster.webp"
-                alt="blind-hamster"
+                alt="error"
                 class="mb-4 rounded-full w-32 h-32 object-contain"
             />
             <button
