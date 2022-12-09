@@ -2,11 +2,13 @@
   import Auth from "./views/Auth.svelte";
   import Router from "svelte-spa-router";
   import Home from "./views/Home.svelte";
+  import Expenses from "./views/Expenses.svelte";
   import { SvelteToast } from "@zerodevx/svelte-toast";
 
   const routes = {
     "/": Auth,
     "/home": Home,
+    "/expenses": Expenses,
   };
 </script>
 

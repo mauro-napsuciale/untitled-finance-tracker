@@ -2,39 +2,33 @@
     import NavDrawer from "../components/NavDrawer.svelte";
     import { httpGet } from "../services/apiService";
     import type { Expense, Income } from "../services/types";
-    import { format, startOfYear, endOfYear } from "date-fns";
+    import { format, startOfMonth, endOfMonth } from "date-fns";
 
-    let getData: Promise<any> = getDashboardData();
+    let formattedMonth = format(new Date(), "LLLL");
 
-    const mappedTotal = (data: Expense[]) => {
-        return data
-            .map((expense) => expense.amount)
-            .reduce((prev: number, curr: number) => prev + curr, 0);
-    };
+    let getData: Promise<any> = getExpenseData();
 
-    function getDashboardData(): Promise<{
+    function getExpenseData(): Promise<{
         expenses: Expense[];
         incomes: Income[];
     }> {
         return new Promise(async (resolve, reject) => {
-            const yearStart: string = format(
-                startOfYear(new Date()),
+            const monthStart: string = format(
+                startOfMonth(new Date()),
                 "yyyy-MM-dd"
             );
-            const yearEnd: string = format(endOfYear(new Date()), "yyyy-MM-dd");
+            const monthEnd: string = format(
+                endOfMonth(new Date()),
+                "yyyy-MM-dd"
+            );
 
             try {
                 const {
                     data: { data: expenses },
                 } = await httpGet(
-                    `/expenses?filters[issued_date][$between][0]=${yearStart}&filters[issued_date][$between][1]=${yearEnd}`
+                    `/expenses?filters[issued_date][$between][0]=${monthStart}&filters[issued_date][$between][1]=${monthEnd}`
                 );
-                const {
-                    data: { data: incomes },
-                } = await httpGet(
-                    `/incomes?filters[perceived_date][$between][0]=${yearStart}&filters[perceived_date][$between][1]=${yearEnd}`
-                );
-                resolve({ expenses, incomes });
+                resolve(expenses);
             } catch (error) {
                 const {
                     response: {
@@ -54,24 +48,19 @@
 
 <NavDrawer>
     <div class="p-4">
-        <h1 class="font-quicksand font-bold text-2xl">Dashboard</h1>
+        <h1 class="font-quicksand font-bold text-2xl">Expenses</h1>
         {#await getData}
-            <p class="mb-4">Getting your data...</p>
+            <p class="mb-4">Getting your expenses...</p>
             <img
                 src="/img/walking-parrot.webp"
                 alt="loading"
                 class="rounded-full w-32 h-32 object-contain shadow-neu-out"
             />
         {:then value}
-            <p class="mb-4">Here's a quick brief of your expenses this year:</p>
-            <!-- TODO: Pretty graphs -->
-            <p>Expense movements {value.expenses.length}</p>
-            <p>Total spent {mappedTotal(value.expenses)}</p>
-            <p>Income movements {value.incomes.length}</p>
-            <p>Total earned {mappedTotal(value.incomes)}</p>
+            <p class="mb-4">Viewing your expenses for {formattedMonth}:</p>
         {:catch error}
             <p class="mb-2 text-lg">
-                The following error ocurred while getting your data:
+                The following error ocurred while getting your expenses:
             </p>
             <p class="italic mb-4">{error.message}</p>
             <img
@@ -82,7 +71,7 @@
             <button
                 class="block px-8 py-2 bg-primary text-white rounded-lg transition-shadow hover:shadow-neu-out focus:shadow-neu-out"
                 on:click={() => {
-                    getData = getDashboardData();
+                    getData = getExpenseData();
                 }}
             >
                 Try again?

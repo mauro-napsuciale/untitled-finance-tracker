@@ -8,6 +8,7 @@
     const session: User = JSON.parse(
         sessionStorage.getItem("uft-session") as string
     );
+
     const backendURL: string = import.meta.env.VITE_BACKEND_URL;
 
     const logout = () => {
@@ -40,9 +41,6 @@
             </p>
         </div>
         <div class="hidden md:flex justify-between items-center gap-4 md:gap-8">
-            <a href="/home" class="px-4 py-2 neumorph-in" use:link
-                >Test anchor</a
-            >
             <button
                 class="p-3 rounded-full bg-primary text-base-color shadow-neu-out"
                 on:click={logout}
@@ -62,9 +60,9 @@
 </nav>
 
 <div
-    class="fixed top-4 left-4 right-4 bottom-4 neumorph-out md:hidden z-50 transition-transform duration-[200ms] {isMenuOpen
-        ? 'scale-100'
-        : 'scale-0'}"
+    class="fixed top-4 left-4 -right-4 bottom-4 neumorph-out md:hidden z-50 transition-transform duration-[200ms] {isMenuOpen
+        ? 'translate-x-0'
+        : 'translate-x-full'}"
 >
     <div class="flex flex-col items-center bg-base-color p-4 rounded-lg">
         <button
@@ -89,21 +87,14 @@
                 class="block px-4 py-2 my-2 transition-shadow focus:shadow-neu-in rounded-lg"
                 use:link
             >
-                Test anchor
+                Dashboard
             </a>
             <a
-                href="/home"
+                href="/expenses"
                 class="block px-4 py-2 my-2 transition-shadow focus:shadow-neu-in rounded-lg"
                 use:link
             >
-                Test anchor
-            </a>
-            <a
-                href="/home"
-                class="block px-4 py-2 my-2 transition-shadow focus:shadow-neu-in rounded-lg"
-                use:link
-            >
-                Test anchor
+                Expenses
             </a>
             <button
                 class="px-8 py-2 bg-primary text-base-color neumorph-out"
@@ -120,20 +111,20 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div class="hidden md:block font-quicksand col-span-1">
             <div class="container min-h-[512px] p-4 neumorph-out">
-                <ul class="list-none">
-                    <li class="px-4 py-2 my-2 neumorph-in">
-                        <a href="/home" use:link>Test anchor</a>
-                    </li>
-                    <li class="px-4 py-2 my-2 neumorph-in">
-                        <a href="/home" use:link>Test anchor</a>
-                    </li>
-                    <li class="px-4 py-2 my-2 neumorph-in">
-                        <a href="/home" use:link>Test anchor</a>
-                    </li>
-                    <li class="px-4 py-2 my-2 neumorph-in">
-                        <a href="/home" use:link>Test anchor</a>
-                    </li>
-                </ul>
+                <a
+                    href="/home"
+                    class="block px-4 py-2 my-2 neumorph-in"
+                    use:link
+                >
+                    Dashboard
+                </a>
+                <a
+                    href="/expenses"
+                    class="block px-4 py-2 my-2 neumorph-in"
+                    use:link
+                >
+                    Expenses
+                </a>
             </div>
         </div>
         <div class="md:col-span-3">
