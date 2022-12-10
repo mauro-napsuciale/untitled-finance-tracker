@@ -1,16 +1,22 @@
 <script lang="ts">
     import NavDrawer from "../components/NavDrawer.svelte";
     import { httpGet } from "../services/apiService";
-    import type { Expense, Income } from "../services/types";
+    import type { Expense } from "../services/types";
     import { format, startOfMonth, endOfMonth } from "date-fns";
+    import DynamicTable from "../components/Tables/DynamicTable.svelte";
 
     let formattedMonth = format(new Date(), "LLLL");
+
+    const tableHeaders = [
+        { title: "ID", value: "id" },
+        { title: "Date", value: "issued_date" },
+        { title: "Amount", value: "amount" },
+    ];
 
     let getData: Promise<any> = getExpenseData();
 
     function getExpenseData(): Promise<{
         expenses: Expense[];
-        incomes: Income[];
     }> {
         return new Promise(async (resolve, reject) => {
             const monthStart: string = format(
@@ -26,7 +32,7 @@
                 const {
                     data: { data: expenses },
                 } = await httpGet(
-                    `/expenses?filters[issued_date][$between][0]=${monthStart}&filters[issued_date][$between][1]=${monthEnd}`
+                    `/expenses?filters[issued_date][$between][0]=${monthStart}&filters[issued_date][$between][1]=${monthEnd}&populate=tags`
                 );
                 resolve(expenses);
             } catch (error) {
@@ -39,6 +45,10 @@
             }
         });
     }
+
+    const edit = ({detail}): void => {
+        console.log(detail);
+    };
 </script>
 
 <!-- markup (zero or more items) goes here -->
@@ -57,7 +67,15 @@
                 class="rounded-full w-32 h-32 object-contain shadow-neu-out"
             />
         {:then value}
-            <p class="mb-4">Viewing your expenses for {formattedMonth}:</p>
+            <p>Viewing your expenses for {formattedMonth}:</p>
+            <p class="mb-4 text-sm">
+                You can edit any registry by clicking on it.
+            </p>
+            <DynamicTable
+                on:onEditRequest={edit}
+                headers={tableHeaders}
+                data={value}
+            />
         {:catch error}
             <p class="mb-2 text-lg">
                 The following error ocurred while getting your expenses:
