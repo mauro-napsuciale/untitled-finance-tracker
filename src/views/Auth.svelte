@@ -58,13 +58,13 @@
             <h2 class="text-2xl text-center">Untitled Finance Tracker</h2>
             <form on:submit|preventDefault={handleForm}>
                 <Input
-                    extraClasses={"transition-shadow hover:shadow-neu-out focus:shadow-neu-out"}
+                    extraClasses={"w-full transition-shadow hover:shadow-neu-out focus:shadow-neu-out"}
                     placeholder={"User"}
                     name={"identifier"}
                     value={identifier}
                 />
                 <Input
-                    extraClasses={"transition-shadow hover:shadow-neu-out focus:shadow-neu-out"}
+                    extraClasses={"w-full transition-shadow hover:shadow-neu-out focus:shadow-neu-out"}
                     type={"password"}
                     placeholder={"Password"}
                     name={"password"}

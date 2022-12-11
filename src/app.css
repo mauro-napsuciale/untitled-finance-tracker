@@ -13,11 +13,11 @@ html {
 
 @layer components {
     .neumorph-in {
-        @apply rounded-lg transition-shadow shadow-neu-in md:shadow-transparent md:hover:shadow-neu-in;
+        @apply rounded-lg transition-shadow shadow-transparent hover:shadow-neu-in;
     }
 
     .neumorph-out {
-        @apply rounded-lg transition-shadow shadow-neu-out md:shadow-transparent md:hover:shadow-neu-out;
+        @apply rounded-lg transition-shadow shadow-transparent hover:shadow-neu-out;
     }
 }
 
